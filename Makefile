@@ -5,6 +5,7 @@ venv: venv/bin/activate
 venv/bin/activate: requirements.txt
 	test -d venv || virtualenv --no-site-packages --python /usr/bin/python venv
 	. venv/bin/activate; pip install --upgrade -r requirements.txt
+	. venv/bin/activate; pip install --editable .
 	touch venv/bin/activate
 
 clean:
