@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Flask based web application for managing notification settings.
 
 This simple sample application provides a bare-bones website that
