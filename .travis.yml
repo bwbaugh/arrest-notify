@@ -1,12 +1,19 @@
 language: python
 install:
-  - pip install tox 
+- pip install tox
 script:
-  - tox
+- tox
 env:
-  - TOXENV=py27
-  - TOXENV=py34
-  - TOXENV=pypy
+- TOXENV=py27
+- TOXENV=py34
+- TOXENV=pypy
 branches:
   only:
-    - master
+  - master
+deploy:
+  provider: heroku
+  api_key:
+    secure: aiJBIAroUb7iodpyRmx40zlediv7SvqjfgUH9GfTFQ9HLRBsX+QQqBPeOxddkEAO3DGHK4eJbmbdPD28NlQ4weWrqrrdV/fsG3OJz+lwl7pgmnggQVn3tkaTB3rPye/fBbmM5WUB21bCex2iZDaTNZ+xpqmnssXS9OKFiXSYeX8=
+  app: arrest-notify
+  on:
+    repo: bwbaugh/arrest-notify
