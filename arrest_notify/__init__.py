@@ -23,7 +23,7 @@ from stormpath.error import Error as StormpathError
 
 
 app = Flask(__name__)
-app.debug = bool(environ.get('DEBUG'))
+app.debug = bool(int(environ.get('DEBUG', 0)))
 app.config['SECRET_KEY'] = environ['SECRET_KEY']
 app.config['STORMPATH_APPLICATION'] = environ['STORMPATH_APPLICATION']
 app.config['STORMPATH_API_KEY_ID'] = environ['STORMPATH_API_KEY_ID']
