@@ -9,12 +9,10 @@ TThe views here provide a bare-bones website that allows users to:
 -   Log out of the website.
 """
 from flask.ext import stormpath
-from flask import (
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import url_for
 from stormpath.error import Error as StormpathError
 
 from arrest_notify import app
