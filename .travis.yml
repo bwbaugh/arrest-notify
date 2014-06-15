@@ -17,3 +17,4 @@ deploy:
   app: arrest-notify
   on:
     repo: bwbaugh/arrest-notify
+    condition: "$TOXENV = py27"
