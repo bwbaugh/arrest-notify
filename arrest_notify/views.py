@@ -78,6 +78,14 @@ def login():
     return redirect(request.args.get('next') or url_for('dashboard'))
 
 
+@app.route('/logout')
+@stormpath.login_required
+def logout():
+    """Log out a logged in userand redirect them back to the main page."""
+    stormpath.logout_user()
+    return redirect(url_for('index'))
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @stormpath.login_required
 def dashboard():
@@ -93,11 +101,3 @@ def dashboard():
                 stormpath.user.custom_data[key] = value
         stormpath.user.save()
     return render_template('dashboard.html')
-
-
-@app.route('/logout')
-@stormpath.login_required
-def logout():
-    """Log out a logged in userand redirect them back to the main page."""
-    stormpath.logout_user()
-    return redirect(url_for('index'))
