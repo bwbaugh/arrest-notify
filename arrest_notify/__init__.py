@@ -110,10 +110,3 @@ def logout():
     """Log out a logged in userand redirect them back to the main page."""
     stormpath.logout_user()
     return redirect(url_for('index'))
-
-
-if __name__ == '__main__':
-    app.run(
-        host='0.0.0.0',
-        port=int(environ.get('PORT', 5000))
-    )

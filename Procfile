@@ -1,1 +1,1 @@
-web: python -m webapp
+web: python -m arrest_notify
