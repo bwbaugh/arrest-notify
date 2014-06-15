@@ -48,7 +48,7 @@ def register():
             'surname': request.form.get('surname'),
         })
         user.__class__ = stormpath.User
-    except StormpathError, err:
+    except StormpathError as err:
         # If something fails, we'll display a user-friendly error message.
         return render_template('register.html', error=err.message)
     stormpath.login_user(user, remember=True)

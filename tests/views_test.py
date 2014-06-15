@@ -3,14 +3,14 @@ class TestIndex(object):
 
     def test_getting_started(self, app):
         response = app.get('/')
-        assert 'Getting Started' in response.data
+        assert 'Getting Started' in str(response.data)
 
 
 class TestRegister(object):
 
     def test_confirm_your_email_address(self, app):
         response = app.get('/register')
-        assert 'confirm your email address' in response.data
+        assert 'confirm your email address' in str(response.data)
 
 
 class TestLogin(object):
