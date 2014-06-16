@@ -130,5 +130,8 @@ def create_rule():
         rule = rules.Rule.make(**rule_params)
     except ValueError as error:
         return render_template(template_name, error=error)
-    rules.save_rule_for_user(stormpath.user.get_id(), rule)
+    try:
+        rules.save_rule_for_user(stormpath.user.get_id(), rule)
+    except rules.UniqueItemNameError as error:
+        return render_template(template_name, error=error)
     return redirect(url_for('dashboard'))

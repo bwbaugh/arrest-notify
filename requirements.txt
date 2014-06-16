@@ -4,6 +4,7 @@ Flask-Stormpath==0.0.1
 Jinja2==2.7.3
 MarkupSafe==0.23
 Werkzeug==0.9.6
+boto==2.29.1
 itsdangerous==0.24
 requests==2.3.0
 stormpath==1.0.1
