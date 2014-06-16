@@ -56,6 +56,31 @@ class Rule(
         )
 
 
+def get_rules_for_user(user_id):
+    """Get all rules in the DB for a particular user.
+
+    A random unique ID i.e., item name, will tried to be generated,
+    however if there are too many items in the DB then this may fail.
+
+    Args:
+        user_id: String of the user-ID to associate the rule with in
+            the DB. For instances of the User class from Stormpath,
+            this is usually obtained by calling `user.get_id()`.
+
+    Returns:
+        Iterator of dictionary-like items from the DB.
+    """
+    sdb = boto.connect_sdb()
+    # Save time by not sending a request that would ensure the domain exists.
+    domain = sdb.get_domain('arrestnotify_rule', validate=False)
+    items = domain.select(
+        'select * from arrestnotify_rule where user_id = "{user_id}"'.format(
+            user_id=user_id,
+        )
+    )
+    return items
+
+
 def save_rule_for_user(user_id, rule):
     """Store a rule in the DB to be used when matching
 

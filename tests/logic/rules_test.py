@@ -58,6 +58,29 @@ class TestRuleMake(object):
         assert rule.surname == 'surname'
 
 
+class TestGetRulesForUser(object):
+
+    def test_get_domain(self, mock_sdb):
+        rules.get_rules_for_user(mock.sentinel.user_id)
+        mock_sdb().get_domain.assert_called_once_with(
+            'arrestnotify_rule',
+            validate=False,
+        )
+
+    def test_query_by_user_id(self, mock_sdb):
+        rules.get_rules_for_user(mock.sentinel.user_id)
+        args, kwargs = mock_sdb().get_domain().select.call_args_list[0]
+        query = args[0]
+        expected = 'user_id = "{user_id}"'.format(
+            user_id=mock.sentinel.user_id,
+        )
+        assert expected in query
+
+    def test_returns_iterator_from_select(self, mock_sdb):
+        result = rules.get_rules_for_user(mock.sentinel.user_id)
+        assert result == mock_sdb().get_domain().select()
+
+
 class TestSaveRuleForUser(object):
 
     MOCK_RULE = rules.Rule.make(
@@ -66,15 +89,6 @@ class TestSaveRuleForUser(object):
         '2014-06-15',
         '2014-06-16',
     )
-
-    @pytest.fixture
-    def mock_sdb(self, monkeypatch):
-        mock_sdb = mock.create_autospec(boto.connect_sdb)
-        monkeypatch.setattr(boto, 'connect_sdb', mock_sdb)
-        # By default, find a unique item name.
-        mock_domain = mock_sdb.return_value.get_domain.return_value
-        mock_domain.get_item.return_value = None
-        return mock_sdb
 
     @pytest.fixture(autouse=True)
     def mock_generate_item_name(self, monkeypatch):
@@ -139,3 +153,13 @@ class TestGenerateItemName(object):
     def test_return_value(self, mock_uuid):
         result = rules._generate_item_name()
         assert result == mock_uuid.return_value.hex[:]
+
+
+@pytest.fixture
+def mock_sdb(monkeypatch):
+    mock_sdb = mock.create_autospec(boto.connect_sdb)
+    monkeypatch.setattr(boto, 'connect_sdb', mock_sdb)
+    # By default, find a unique item name.
+    mock_domain = mock_sdb.return_value.get_domain.return_value
+    mock_domain.get_item.return_value = None
+    return mock_sdb

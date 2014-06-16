@@ -28,6 +28,27 @@
           age.
         </p>
 
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Given Name</th>
+              <th>Surame</th>
+              <th>Earliest birthdate</th>
+              <th>Latest birthdate</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for rule in user_rules %}
+            <tr>
+              <td>{{ rule['given_name'].title() }}</td>
+              <td>{{ rule['surname'].title() }}</td>
+              <td>{{ rule['earliest_birthdate'] }}</td>
+              <td>{{ rule['latest_birthdate'] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
         <a href="{{ url_for('create_rule') }}" class="btn btn-primary">
           <span class="glyphicon glyphicon-plus"></span> Create
         </a>

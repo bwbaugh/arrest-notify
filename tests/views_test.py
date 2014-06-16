@@ -33,6 +33,8 @@ class TestDashboard(object):
         response = app.get('/dashboard')
         assert response.status == '302 FOUND'
 
+    # TODO(bwbaugh|2014-06-15): Test match rules table.
+
 
 class TestCreateRule(object):
 
