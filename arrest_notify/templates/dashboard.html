@@ -8,23 +8,30 @@
   <div class="dashboard">
     <div class="row">
       <div class="col-lg-12">
+
         <div class="page-header">
           <h1>Dashboard</h1>
         </div>
+
         <h2>Account info</h2>
+
         <p>
           Email:
           <span class="data">{{ user.email }}</span>
         </p>
+
         <h2>Match rules</h2>
+
         <p>
           Create a rule for determining whether or not you should be
           notified about a new arrest based on the person's name and
           age.
         </p>
+
         <a href="{{ url_for('create_rule') }}" class="btn btn-primary">
           <span class="glyphicon glyphicon-plus"></span> Create
         </a>
+
       </div>
     </div>
   </div>
