@@ -32,3 +32,12 @@ class TestDashboard(object):
     def test_not_logged_in_status_code(self, app):
         response = app.get('/dashboard')
         assert response.status == '302 FOUND'
+
+    # TODO(bwbaugh|2014-06-15): Test match rules table.
+
+
+class TestCreateRule(object):
+
+    def test_not_logged_in_status_code(self, app):
+        response = app.get('/rule/create')
+        assert response.status == '302 FOUND'

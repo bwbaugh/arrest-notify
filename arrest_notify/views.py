@@ -16,6 +16,7 @@ from flask import url_for
 from stormpath.error import Error as StormpathError
 
 from arrest_notify import app
+from arrest_notify.logic import rules
 
 
 stormpath_manager = stormpath.StormpathManager(app)
@@ -84,7 +85,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/dashboard')
 @stormpath.login_required
 def dashboard():
     """This view renders a simple dashboard page for logged in users.
@@ -92,10 +93,40 @@ def dashboard():
     Users can see their personal information on this page, as well as
     store additional data to their account.
     """
-    if request.method == 'POST':
-        for key in ['notification_settings']:
-            value = request.form.get(key)
-            if value is not None:
-                stormpath.user.custom_data[key] = value
-        stormpath.user.save()
-    return render_template('dashboard.html')
+    user_rules = rules.get_rules_for_user(stormpath.user.get_id())
+    return render_template('dashboard.html', user_rules=user_rules)
+
+
+@app.route('/rule/create', methods=['GET', 'POST'])
+@stormpath.login_required
+def create_rule():
+    """This view renders a simple dashboard page for logged in users.
+
+    Users can see their personal information on this page, as well as
+    store additional data to their account.
+    """
+    template_name = 'create-rule.html'
+    if request.method == 'GET':
+        return render_template(template_name)
+    try:
+        rule_params = dict(
+            (key, request.form[key])
+            for key in rules.Rule._fields
+        )
+    except KeyError as error:
+        return render_template(
+            template_name,
+            error=(
+                'Missing form parameter {field_name}. It looks like '
+                'the form might be broken!'
+            ),
+        )
+    try:
+        rule = rules.Rule.make(**rule_params)
+    except ValueError as error:
+        return render_template(template_name, error=error)
+    try:
+        rules.save_rule_for_user(stormpath.user.get_id(), rule)
+    except rules.UniqueItemNameError as error:
+        return render_template(template_name, error=error)
+    return redirect(url_for('dashboard'))

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+
+{% block title %}Create Rule{% endblock %}
+
+
+{% block body %}
+<form class="form-horizontal" method="post" action="">
+  <fieldset>
+
+    <legend>Create rule</legend>
+
+    {% if error %}
+      <div class="alert alert-dismissable alert-danger login-fail">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ error }}
+      </div>
+    {% endif %}
+
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="given_name">
+        Given name
+      </label>
+      <div class="col-md-4">
+        <input id="given_name" name="given_name" type="text" placeholder="Jane" class="form-control input-md" required="">
+        <span class="help-block">
+          Legal given name i.e., first name, as it would appear in an
+          arrest record. Exact match only.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="surname">Surname</label>  
+      <div class="col-md-4">
+        <input id="surname" name="surname" type="text" placeholder="Doe" class="form-control input-md" required="">
+        <span class="help-block">
+          Legal surname i.e., last name, as it would appear in an
+          arrest record. Exact match only.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="earliest_birthdate">Earliest birthdate</label>  
+      <div class="col-md-4">
+        <input id="earliest_birthdate" name="earliest_birthdate" type="date" class="form-control input-md" required="">
+        <span class="help-block">
+          The earliest birthdate the person could have in order to be
+          considered a match.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="latest_birthdate">
+        Latest birthdate
+      </label>
+      <div class="col-md-4">
+        <input id="latest_birthdate" name="latest_birthdate" type="date" class="form-control input-md" required="">
+        <span class="help-block">
+          The latest birthdate the person could have in order to be
+          considered a match.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="submit"></label>
+      <div class="col-md-4">
+        <button id="submit" name="submit" class="btn btn-primary">
+          <span class="glyphicon glyphicon-plus"></span> Create
+        </button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+{% endblock %}
